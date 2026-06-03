@@ -1,0 +1,11 @@
+{
+  "SCENE_REQUEST": {
+    "subject": "a small silver perfume bottle",
+    "environment": "an empty tiled bathroom at dusk",
+    "action": "resting near a fogged mirror",
+    "shot_type": "close medium product shot",
+    "composition": "off-center subject with negative space",
+    "aspect_ratio": "4:5",
+    "output_goal": "generate a new subject while preserving the locked Style DNA"
+  }
+}

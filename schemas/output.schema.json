@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Style DNA 输出",
+  "propertyOrdering": [
+    "style_dna_markdown",
+    "style_dna_json",
+    "execution_prompt",
+    "scene_request_template",
+    "quality_report"
+  ],
+  "properties": {
+    "style_dna_markdown": {
+      "type": "string",
+      "title": "style_dna.md",
+      "description": "人类审阅版风格 DNA。",
+      "ui_component": "markdown_viewer"
+    },
+    "style_dna_json": {
+      "type": "string",
+      "title": "style_dna.json",
+      "description": "完整 Style DNA JSON，包含分析证据和执行合同。",
+      "ui_component": "code_viewer"
+    },
+    "execution_prompt": {
+      "type": "string",
+      "title": "execution_prompt.txt",
+      "description": "可直接用于 GPT Image / Nano Banana 的执行提示词。",
+      "ui_component": "textarea"
+    },
+    "scene_request_template": {
+      "type": "string",
+      "title": "SCENE_REQUEST 模板",
+      "description": "后续换主体、场景、动作时只改这部分。",
+      "ui_component": "code_viewer"
+    },
+    "quality_report": {
+      "type": "string",
+      "title": "质量报告",
+      "description": "置信度、风险点和自检结果。",
+      "ui_component": "markdown_viewer"
+    }
+  }
+}

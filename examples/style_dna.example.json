@@ -1,0 +1,142 @@
+{
+  "style_dna_compiler": {
+    "metadata": {
+      "style_id": "STYLE_DNA_EXAMPLE_001",
+      "source_type": "single_style_grid",
+      "target_model": "gpt_image_or_nano_banana",
+      "output_version": "1.0"
+    },
+    "analysis_trace": {
+      "selected_style_categories": ["photographic"],
+      "cell_observations": [
+        {
+          "cell_id": "A1",
+          "visible_style_signals": [
+            "low-saturation cyan-green shadow bias",
+            "milky overexposed highlights",
+            "soft focus drift"
+          ],
+          "non_style_content": ["specific young woman", "specific bedroom"],
+          "confidence_notes": "Signals repeat across the board; exact subject and room should not transfer."
+        }
+      ],
+      "signal_ranking": {
+        "locked_candidates": [
+          "low-saturation cyan-green shadows",
+          "milky highlight rolloff",
+          "imperfect analog grain"
+        ],
+        "strong_candidates": [
+          "off-center framing with negative space",
+          "soft window-like diffused light"
+        ],
+        "soft_candidates": [
+          "subtle foreground occlusion"
+        ],
+        "ignored_one_offs": [
+          "red umbrella",
+          "specific cat",
+          "specific rooftop"
+        ]
+      },
+      "content_removed": [
+        "specific person identity",
+        "specific clothing",
+        "specific room",
+        "specific red umbrella"
+      ],
+      "translated_mechanisms": [
+        {
+          "source_content": "red umbrella",
+          "style_mechanism": "isolated high-saturation accent object"
+        }
+      ]
+    },
+    "generation_contract": {
+      "STYLE_DNA": {
+        "core_visual_identity": "A low-saturation analog photographic style with cyan-green shadows, milky highlights, soft focus drift, and emotionally distant off-center framing.",
+        "emotion_and_atmosphere": "Restrained emotional distance and humid memory-fragment atmosphere built through low expression intensity, negative space, cyan-green shadows, and milky soft focus.",
+        "locked_style": {
+          "palette": "low-saturation cyan-green shadows with faded neutral midtones",
+          "lighting": "diffused soft light with milky overexposed highlights",
+          "texture": "analog grain, mild compression artifacts, imperfect focus drift"
+        },
+        "strong_style": {
+          "composition": "off-center subject placement with negative space",
+          "camera": "natural eye-level or slightly lowered camera, non-commercial framing"
+        },
+        "soft_style": {
+          "optional_motifs": ["subtle foreground occlusion"],
+          "secondary_effects": ["faint haze or memory-fragment softness"]
+        },
+        "style_modules": {
+          "photographic": {
+            "exposure_behavior": "soft overexposure without clean HDR clarity",
+            "grain_structure": "visible but not decorative"
+          }
+        },
+        "allowed_variation": [
+          "subject identity",
+          "environment",
+          "action",
+          "shot scale",
+          "props"
+        ]
+      },
+      "NEGATIVE_CONSTRAINTS": {
+        "style_drift": [
+          "modern HDR clarity",
+          "commercial beauty lighting",
+          "clean digital sharpness"
+        ],
+        "technical_errors": [
+          "plastic skin",
+          "oversharpened edges"
+        ],
+        "content_copying": [
+          "do not copy exact people from the source board",
+          "do not copy exact props from the source board",
+          "do not copy exact backgrounds from the source board"
+        ]
+      },
+      "VERIFY": {
+          "check_before_output": [
+          "locked palette is preserved",
+          "locked lighting logic is preserved",
+          "locked texture system is preserved",
+          "emotion and atmosphere are preserved without copying the source subject",
+          "scene changes do not override Style DNA",
+          "no source-specific content is copied"
+        ]
+      }
+    },
+    "scene_request_template": {
+      "SCENE_REQUEST": {
+        "subject": "new subject",
+        "environment": "new environment",
+        "action": "new action",
+        "shot_type": "medium shot",
+        "composition": "off-center framing",
+        "aspect_ratio": "16:9",
+        "output_goal": "new image with locked Style DNA"
+      }
+    },
+    "quality_report": {
+      "confidence": {
+        "overall": "medium-high",
+        "palette": "high",
+        "lighting": "medium-high",
+        "camera": "medium",
+        "texture": "high"
+      },
+      "risks": [
+        "If the board contains too many one-off scenes, avoid expanding locked_style."
+      ],
+      "self_check": [
+        "No exact source subject copied",
+        "Forbidden constraints included",
+        "Execution values are in English"
+      ]
+    }
+  }
+}

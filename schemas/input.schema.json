@@ -1,0 +1,70 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Style DNA 输入",
+  "required": ["style_board_image_url"],
+  "propertyOrdering": [
+    "style_board_image_url",
+    "reference_images",
+    "target_model",
+    "output_language",
+    "analysis_depth",
+    "scene_request_hint"
+  ],
+  "properties": {
+    "style_board_image_url": {
+      "type": "string",
+      "title": "风格宫格图",
+      "description": "必填。上传 3x3 / 4x4 宫格图、拼贴参考板或主风格参考图。",
+      "format": "uri",
+      "ui_component": "image_uploader"
+    },
+    "reference_images": {
+      "type": "array",
+      "title": "补充参考图",
+      "description": "可选。用于补充同风格参考，不要放入不同目标风格。",
+      "ui_component": "asset_uploader",
+      "items": {
+        "type": "object",
+        "required": ["image_url"],
+        "properties": {
+          "image_url": {
+            "type": "string",
+            "title": "图片链接",
+            "format": "uri"
+          },
+          "note": {
+            "type": "string",
+            "title": "补充说明"
+          }
+        }
+      }
+    },
+    "target_model": {
+      "type": "string",
+      "title": "目标模型",
+      "enum": ["gpt_image_or_nano_banana", "gpt_image", "nano_banana", "platform_neutral"],
+      "enumNames": ["GPT Image / Nano Banana 通用", "GPT Image", "Nano Banana", "平台中立"],
+      "default": "gpt_image_or_nano_banana"
+    },
+    "output_language": {
+      "type": "string",
+      "title": "输出语言",
+      "enum": ["zh_review_en_contract", "zh-CN", "en"],
+      "enumNames": ["中文审阅 + 英文执行字段", "全中文", "English"],
+      "default": "zh_review_en_contract"
+    },
+    "analysis_depth": {
+      "type": "string",
+      "title": "分析密度",
+      "enum": ["compact", "standard", "full"],
+      "enumNames": ["精简", "标准", "完整"],
+      "default": "standard"
+    },
+    "scene_request_hint": {
+      "type": "string",
+      "title": "示例场景请求",
+      "description": "可选。只用于生成 SCENE_REQUEST 示例，不改变 Style DNA。"
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "Style DNA Compiler JSON",
+  "required": ["style_dna_compiler"],
+  "properties": {
+    "style_dna_compiler": {
+      "type": "object",
+      "required": [
+        "metadata",
+        "analysis_trace",
+        "generation_contract",
+        "scene_request_template",
+        "quality_report"
+      ],
+      "properties": {
+        "metadata": {
+          "type": "object",
+          "required": ["style_id", "source_type", "target_model", "output_version"],
+          "properties": {
+            "style_id": { "type": "string" },
+            "source_type": {
+              "type": "string",
+              "enum": [
+                "single_style_grid",
+                "multi_image_reference_set",
+                "collage_reference_board",
+                "low_information_reference",
+                "mixed_uncertain_set"
+              ]
+            },
+            "target_model": { "type": "string" },
+            "output_version": { "type": "string" }
+          }
+        },
+        "analysis_trace": {
+          "type": "object",
+          "required": [
+            "selected_style_categories",
+            "cell_observations",
+            "signal_ranking",
+            "content_removed",
+            "translated_mechanisms"
+          ],
+          "properties": {
+            "selected_style_categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["photographic", "illustration", "cg_3d", "graphic_design", "mixed_uncertain"]
+              }
+            },
+            "cell_observations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["cell_id", "visible_style_signals", "non_style_content"],
+                "properties": {
+                  "cell_id": { "type": "string" },
+                  "visible_style_signals": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "non_style_content": {
+                    "type": "array",
+                    "items": { "type": "string" }
+                  },
+                  "confidence_notes": { "type": "string" }
+                }
+              }
+            },
+            "signal_ranking": {
+              "type": "object",
+              "required": ["locked_candidates", "strong_candidates", "soft_candidates", "ignored_one_offs"],
+              "properties": {
+                "locked_candidates": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "strong_candidates": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "soft_candidates": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "ignored_one_offs": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "content_removed": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "translated_mechanisms": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": ["source_content", "style_mechanism"],
+                "properties": {
+                  "source_content": { "type": "string" },
+                  "style_mechanism": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "generation_contract": {
+          "type": "object",
+          "required": [
+            "STYLE_DNA",
+            "NEGATIVE_CONSTRAINTS",
+            "VERIFY"
+          ],
+          "properties": {
+            "STYLE_DNA": {
+              "type": "object",
+                "required": ["core_visual_identity", "emotion_and_atmosphere", "locked_style", "strong_style", "soft_style", "allowed_variation"],
+                "properties": {
+                  "core_visual_identity": { "type": "string" },
+                  "emotion_and_atmosphere": { "type": "string" },
+                  "locked_style": { "type": "object" },
+                  "strong_style": { "type": "object" },
+                  "soft_style": { "type": "object" },
+                "style_modules": { "type": "object" },
+                "allowed_variation": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "NEGATIVE_CONSTRAINTS": {
+              "type": "object",
+              "required": ["style_drift", "content_copying"],
+              "properties": {
+                "style_drift": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "technical_errors": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                },
+                "content_copying": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            },
+            "VERIFY": {
+              "type": "object",
+              "required": ["check_before_output"],
+              "properties": {
+                "check_before_output": {
+                  "type": "array",
+                  "items": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "scene_request_template": {
+          "type": "object",
+          "required": ["SCENE_REQUEST"],
+          "properties": {
+            "SCENE_REQUEST": {
+              "type": "object",
+              "properties": {
+                "subject": { "type": "string" },
+                "environment": { "type": "string" },
+                "action": { "type": "string" },
+                "shot_type": { "type": "string" },
+                "composition": { "type": "string" },
+                "aspect_ratio": { "type": "string" },
+                "output_goal": { "type": "string" }
+              }
+            }
+          }
+        },
+        "quality_report": {
+          "type": "object",
+          "required": ["confidence", "risks", "self_check"],
+          "properties": {
+            "confidence": { "type": "object" },
+            "risks": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "self_check": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}
