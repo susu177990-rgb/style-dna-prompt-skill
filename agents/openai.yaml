@@ -1,6 +1,6 @@
 interface:
   display_name: "Style DNA Compiler"
-  short_description: "Extract reusable Style DNA from image grids"
-  default_prompt: "Use $style-dna to extract a transferable Style DNA from this style board and return style_dna.md, style_dna.json, and execution_prompt.txt."
+  short_description: "Slash-command Style DNA extraction from style boards and reference sets"
+  default_prompt: "Use $style-dna. Start with /start, let me send the style board, then run /analyze and return style_dna.md, style_dna.json, and execution_prompt.txt."
 policy:
   allow_implicit_invocation: true

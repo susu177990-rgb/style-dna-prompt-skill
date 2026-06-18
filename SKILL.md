@@ -1,23 +1,40 @@
 ---
 name: style-dna
-description: Use this skill when the user provides a 3x3 or 4x4 style grid, collage, reference board, or multiple same-style images and asks to extract Style DNA, visual DNA, 风格DNA, 风格锁定, style consistency, Nano Banana / GPT Image style prompt, or a reusable style contract. The skill turns reference images into a three-part output: human-readable style_dna.md, machine-readable style_dna.json, and execution_prompt.txt for GPT Image / Nano Banana style-consistent generation.
+description: Use this skill when the user provides a 3x3 or 4x4 style grid, collage, reference board, or multiple same-style images and asks to extract Style DNA, visual DNA, 风格DNA, 风格锁定, style consistency, Nano Banana / GPT Image style prompt, or a reusable style rule set. The skill turns reference images into a three-part output: human-readable style_dna.md, machine-readable style_dna.json, and execution_prompt.txt for GPT Image / Nano Banana style-consistent generation.
 ---
 
 # Style DNA Compiler
 
-This skill extracts transferable visual style mechanisms from a style board. It is not a captioner, reverse prompt tool, or template filler. The goal is to compile image references into a reusable style-lock contract for black-box image models.
+This skill extracts transferable visual style mechanisms from a style board. It is not a captioner, reverse prompt tool, or template filler. The goal is to compile image references into a reusable style-lock rule set for black-box image models.
 
 The central extraction target is not "what is in the image". It is the transferable combination of `style`, `emotion`, and `atmosphere` after source subjects, props, identities, locations, logos, and one-off story events have been removed.
+
+## Commands
+
+| Command | Action |
+|---|---|
+| `/start` | Explain what the skill does, what inputs it needs, and what the three default outputs are |
+| `/analyze` | Run the default Style DNA extraction workflow |
+| `/json` | Return only the analysis result |
+| `/prompt` | Return only `execution_prompt.txt` |
+| `/help` | Show the command table and a short usage guide |
+
+## Default Interaction
+
+- This skill now uses slash commands as the primary entry mode.
+- The user should first send one style board or a same-style image set, then run `/analyze`.
+- If the user sends images first, acknowledge them as style references and wait for `/analyze` unless the request already clearly asks to start.
+- `/json` and `/prompt` are narrower output variants of the same analysis, not separate workflows.
 
 ## Default Output
 
 Always produce three outputs unless the user explicitly asks for a narrower format:
 
 - `style_dna.md`: Chinese human review document.
-- `style_dna.json`: structured analysis evidence plus generation contract.
+- `style_dna.json`: the main analysis result plus generation rules.
 - `execution_prompt.txt`: copy-ready prompt for GPT Image / Nano Banana.
 
-Also include a `scene_request_template` inside `style_dna.json` so future generations keep `STYLE_DNA` fixed and only change the scene request.
+Also include a `scene_request_template` inside the main analysis result so future generations keep `STYLE_DNA` fixed and only change the scene request.
 
 ## Workflow
 
@@ -38,10 +55,10 @@ Load only what is needed:
 - Core process: `references/workflow.md`.
 - Dynamic field choice: `references/style-signal-routing.md`.
 - Ignore/retain rules: `references/ignore-retain-rules.md`.
-- Output contract: `references/output-contract.md`.
+- Output writing guide: `references/output-contract.md`.
 - Failure prevention: `references/failure-cases.md`.
 - JSON structure: `schemas/style_dna.schema.json`.
-- Form integration: `schemas/input.schema.json` and `schemas/output.schema.json`.
+- Internal validation only: `schemas/input.schema.json` and `schemas/output.schema.json`.
 
 ## Hard Rules
 
@@ -60,7 +77,7 @@ Load only what is needed:
 - Chinese explanation belongs in `style_dna.md` and `quality_report`.
 - If the user requests JSON-only or web-agent output, wrap the JSON in a `json` code block and target 2000-4000 characters: enough detail to preserve style, emotion, and atmosphere, but not a full per-cell transcript.
 - Avoid vague words such as `beautiful`, `cinematic`, `dreamy`, `high quality`, `aesthetic`, or `premium` unless paired with concrete visual mechanisms.
-- Never claim this trains a real LoRA. Describe it as a style-lock contract for GPT Image / Nano Banana style consistency.
+- Never claim this trains a real LoRA. Describe it as a style-lock rule set for GPT Image / Nano Banana style consistency.
 
 ## Completion Checks
 

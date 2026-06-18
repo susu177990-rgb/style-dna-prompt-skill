@@ -1,133 +1,102 @@
-<p align="right">
-  <strong>语言 / Language:</strong>
-  <a href="#中文">中文</a> ·
-  <a href="#english">English</a>
-</p>
+# Style DNA Prompt Skill | 风格 DNA 提取与锁定
 
-<a id="中文"></a>
+中文 | [English](#english)
 
-# Style DNA Prompt Skill
+`Style DNA Prompt Skill` 把一组风格参考图提炼成可复用、可迁移、可继续出新图的 `Style DNA`。它不是普通反推提示词，也不是照抄原图内容，而是帮你锁住风格系统本身——主体、场景、动作可以换，风格不乱。
 
-这个 skill 用来做一件很具体的事：把一组风格参考图，提炼成一个可复用、可迁移、可继续出新图的 `Style DNA`。它不是普通“反推提示词”，也不是照抄原图内容，而是帮你锁住风格系统本身。
+## 适合搜索的关键词
 
-## 它适合什么场景
+Style DNA, style extraction, style board, style locking, style consistency, visual DNA, 风格DNA, 风格锁定, 风格提取, 风格板, Nano Banana style, GPT Image style, reusable style prompt, style transfer, style rule set, 风格一致性, 风格复用.
 
-- 你已经有 `3x3`、`4x4`、拼贴板或一组同风格参考图
-- 你想保留风格、情绪、氛围，但不想复制原图人物和道具
-- 你需要后续持续换主体、换场景、换动作，但风格不乱
-- 你要给 GPT Image、Nano Banana 或别的黑盒模型喂稳定风格合同
+## 这个 Skill 能做什么
 
-## 这个 skill 会给你什么
+- 从 `3×3`、`4×4`、拼贴板或一组同风格参考图中提取重复风格信号。
+- 自动区分"风格机制"和"源图内容"：保留可迁移的风格，清走不可迁移的内容。
+- 产出三件套：`style_dna.md`（人审阅）、`style_dna.json`（机读分析）、`execution_prompt.txt`（直接喂模型）。
+- 附带 `scene_request_template`，后续换主体和场景时继续沿用。
+- 适合长期复用：`STYLE_DNA` 固定，`SCENE_REQUEST` 可变。
+- 对 GPT Image、Nano Banana 等黑盒模型尤其有用。
+
+## 为什么不是普通反推提示词
+
+普通反推提示词会描述"这张图是什么"。这个 skill 会回答"这组图为什么看起来像同一个视觉体系"：
+
+- 哪些是风格机制（保留）
+- 哪些是源图内容（剔除）
+- 频率阈值辅助判断：70%+ 重复信号锁死、40–70% 强风格、20–40% 软风格、单次出现直接剔除
+- 不把源图里的人、衣服、道具、事件误锁进风格规则
+
+## 支持的输入类型
+
+- `single_style_grid`：单张 3×3 或 4×4 风格格栅
+- `multi_image_reference_set`：多张同风格参考图
+- `collage_reference_board`：拼贴参考板
+- `low_information_reference`：信息量低的参考
+- `mixed_uncertain_set`：不确定是否同风格的混合图集
+
+## 安装
+
+```bash
+npx skills add susu177990-rgb/style-dna-prompt-skill
+```
+
+Fork 版本：
+
+```bash
+npx skills add <YOUR_GITHUB_USERNAME>/style-dna-prompt-skill
+```
+
+## 使用示例
+
+### 标准提取流程
+
+```text
+/start
+[发送风格参考板]
+/analyze
+```
+
+### 只拿分析结果
+
+```text
+/json
+```
+
+### 只拿执行提示词
+
+```text
+/prompt
+```
+
+### 后续换场景时
+
+```text
+把 SCENE_REQUEST 换成新的场景描述，STYLE_DNA 不动
+```
+
+## 常用命令
+
+| 命令 | 作用 |
+|---|---|
+| `/start` | 说明 skill 作用、输入要求和三件套输出 |
+| `/analyze` | 执行默认 Style DNA 提取 |
+| `/json` | 只输出风格分析结果 |
+| `/prompt` | 只输出 `execution_prompt.txt` |
+| `/help` | 查看帮助 |
+
+## 核心输出
 
 - `style_dna.md`：给人看的中文风格说明
-- `style_dna.json`：结构化风格合同
-- `execution_prompt.txt`：可以直接喂给模型执行的提示词
+- `style_dna.json`：含 `analysis_trace`、`generation_contract`、`content_removed`、`forbidden`、`verification`
+- `execution_prompt.txt`：含 `<visual_dna>`、`<consistency_backbone>`、`<allowed_variation>`、`<forbidden>`、`<verify>`
 - `scene_request_template`：后续换主体和场景时继续沿用
 
-## 功能亮点
-
-- 从参考板里提取重复风格信号
-- 自动区分“风格机制”和“源图内容”
-- 适合长期复用，不是一次性 prompt
-- 输出同时适合人审阅和模型执行
-- 对 GPT Image、Nano Banana 这类黑盒模型尤其有用
-
-## 最核心的价值
-
-不是“这张图像什么”，而是“这组图为什么看起来像同一个视觉体系”。
-
-这个 skill 会把：
-
-- 可以迁移的风格机制保留下来
-- 不能迁移的源图内容清出去
-- `STYLE_DNA` 固定住
-- 把后续变化留给 `SCENE_REQUEST`
-
-## Installation / 安装
-
-放进全局 skills 目录：
-
-```bash
-$ cp -R "style dna prompt skill" ~/.codex/skills/style-dna
-```
-
-如果你使用项目本地 skills：
-
-```bash
-$ cp -R "style dna prompt skill" ./.codex/skills/style-dna
-```
-
-## Usage / 用法
-
-最短使用方式：
-
-1. 准备一张主风格板，或一组明确同风格的参考图
-2. 调用 skill 提取 `Style DNA`
-3. 以后只改 `SCENE_REQUEST`，不要反复改 `STYLE_DNA`
-
-示例调用：
+## 项目结构
 
 ```text
-$ 请用这张风格参考板提取可迁移的 Style DNA，返回 style_dna.md、style_dna.json 和 execution_prompt.txt。
-```
-
-## 输入要求
-
-输入结构定义在 [schemas/input.schema.json](./schemas/input.schema.json)。
-
-最常用字段：
-
-- `style_board_image_url`：主参考板图片，必填
-- `reference_images`：补充参考图，可选
-- `target_model`：目标模型类型
-- `output_language`：输出语言模式
-- `analysis_depth`：分析深度
-- `scene_request_hint`：可选场景请求示例
-
-## 最常见的工作流
-
-### 1. 先提取固定风格合同
-
-适合已有稳定风格板的情况：
-
-```json
-{
-  "style_board_image_url": "https://example.com/style-grid.jpg",
-  "target_model": "gpt_image_or_nano_banana",
-  "output_language": "zh_review_en_contract",
-  "analysis_depth": "standard"
-}
-```
-
-### 2. 后续只换场景，不换风格
-
-```json
-{
-  "SCENE_REQUEST": {
-    "subject": "a small silver perfume bottle",
-    "environment": "an empty tiled bathroom at dusk",
-    "action": "resting near a fogged mirror",
-    "shot_type": "close medium product shot",
-    "composition": "off-center subject with negative space",
-    "aspect_ratio": "4:5",
-    "output_goal": "generate a new subject while preserving the locked Style DNA"
-  }
-}
-```
-
-## 它特别适合这些人
-
-- 做品牌视觉统一的人
-- 做一套持续更新内容的人
-- 需要把参考图变成长期生成规则的人
-- 讨厌“同一个风格每次都要重新解释一遍”的人
-
-## 仓库结构
-
-```text
-.
-├── README.md
+style-dna-prompt-skill/
 ├── SKILL.md
+├── README.md
 ├── agents/
 ├── examples/
 ├── references/
@@ -135,47 +104,64 @@ $ 请用这张风格参考板提取可迁移的 Style DNA，返回 style_dna.md�
 └── tests/
 ```
 
-## 推荐先看哪里
-
-- [SKILL.md](./SKILL.md)：skill 入口
-- [references/workflow.md](./references/workflow.md)：完整流程
-- [references/output-contract.md](./references/output-contract.md)：输出约束
-- [examples/style_dna.example.json](./examples/style_dna.example.json)：结果示例
-- [examples/scene_request.example.json](./examples/scene_request.example.json)：后续场景请求示例
-
-## 使用规则，尽量记住这三条
+## 三条核心规则
 
 - `STYLE_DNA` 要稳定
 - `SCENE_REQUEST` 才是后续可变部分
-- 不要把源图里的人、衣服、道具、事件误锁进风格合同
+- 不要把源图里的人、衣服、道具、事件误锁进风格规则
+
+## 质量标准
+
+一个合格输出必须满足：
+
+- 选择的风格模块类别与实际图片匹配，而不是模板填充。
+- `style_dna.json` 包含 `analysis_trace`、`generation_contract`、`content_removed`、`forbidden`、`verification`。
+- `generation_contract.STYLE_DNA` 保留了风格、情绪、氛围，排除了源图主体和道具。
+- `execution_prompt.txt` 包含五个必要标签块。
+- 场景变化隔离在 `SCENE_REQUEST` 中，`STYLE_DNA` 保持稳定。
+- 输出可以迁移到新主体，不复制源图内容。
+- 不使用 `beautiful`、`cinematic`、`dreamy`、`high quality` 等空泛词汇，除非有具体视觉机制支撑。
 
 ---
 
-<a id="english"></a>
-
 ## English
 
-`Style DNA Prompt Skill` extracts a transferable style contract from a style board or a same-style reference set. It is built for teams who want to keep the visual system stable while changing subject, scene, action, or framing later.
+`Style DNA Prompt Skill` extracts a transferable style contract from a style board or same-style reference set. It locks the visual system while keeping subject, scene, and action free to change.
 
-## Best for
+## Search Keywords
 
-- style boards
-- collage references
-- repeatable brand visuals
-- long-running image systems
-- GPT Image / Nano Banana style locking
+Style DNA, style extraction, style board, style locking, style consistency, visual DNA, Nano Banana, GPT Image, reusable style prompt, style transfer, style rule set, 风格DNA, 风格锁定.
 
-## Main outputs
+## What It Does
 
-- `style_dna.md`
-- `style_dna.json`
-- `execution_prompt.txt`
-- `scene_request_template`
+- Extracts repeated style signals from style grids, collages, or same-style image sets.
+- Separates transferable style mechanisms from non-transferable source content.
+- Outputs three formats: human-readable `style_dna.md`, machine-readable `style_dna.json`, and copy-ready `execution_prompt.txt`.
+- Includes `scene_request_template` for future subject/scene changes.
+- Built for long-term reuse: one stable `STYLE_DNA`, infinite `SCENE_REQUEST` variants.
 
-## Core rule
+## Install
+
+```bash
+npx skills add susu177990-rgb/style-dna-prompt-skill
+```
+
+For forks:
+
+```bash
+npx skills add <YOUR_GITHUB_USERNAME>/style-dna-prompt-skill
+```
+
+## Fast Path
+
+```text
+/start -> send style board -> /analyze
+```
+
+## Core Rule
 
 Keep `STYLE_DNA` fixed. Change future content through `SCENE_REQUEST`.
 
 ## License / 许可
 
-仓库内如有单独许可文件，以仓库实际文件为准；当前 README 不额外重定义许可。
+仓库内如有单独许可文件，以仓库实际文件为准。
